@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import launchpad.Constants;
 import launchpad.TeleopBase;
-import launchpad.actions.SleepAction;
 import launchpad.geometry.MovementVector;
 import launchpad.hardware.Motor;
 import launchpad.movement.mecanum.MecanumDriver;
@@ -26,23 +25,7 @@ public class MovementTeleop extends TeleopBase {
                 Constants.MECANUM_COEFFICIENT_MATRIX
         );
 
-        // Make a button do something
-        mainGamepad.aButton.onPress(() -> {
-            // add an action to the action thread, causing it to happen immediately
-            runningActions.addAndInitialize(new SleepAction(1000));
-        });
 
-        // Hold to run something continuously (intake, shooter, etc.)
-        mainGamepad.rightBumper.whileDown(() -> { /* ... */ });
-
-        // Toggle on/off with each press — good for a claw or a latch
-        mainGamepad.xButton.onToggle(open -> { /* ... */ });
-
-        // Analog trigger value, 0.0 to 1.0 — variable speed control
-        // intake.setPower(mainGamepad.rightTrigger.getValue());
-
-        // Second driver's controller
-        secondaryGamepad.dpadUp.onPress(() -> { /* ... */ });
     }
 
     @Override
@@ -60,9 +43,9 @@ public class MovementTeleop extends TeleopBase {
 
 
         driver.setRelativePower(new MovementVector(
-                mainGamepad.leftJoystick.getY(),
-                0,
-                mainGamepad.rightJoystick.getX()
+                mainGamepad.rightJoystick.getY(),
+                mainGamepad.rightJoystick.getX(),
+                mainGamepad.leftJoystick.getX()
         ));
     }
 
